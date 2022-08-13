@@ -1,27 +1,29 @@
-
 fn main() {
     let collatz = CollatzLength::new();
     let solution = collatz
         .take(1_000_000)
-        .reduce(|(x, lx), (y, ly)| if lx > ly {(x, lx)} else {(y, ly)})
+        .reduce(|(x, lx), (y, ly)| if lx > ly { (x, lx) } else { (y, ly) })
         .unwrap()
         .0;
-    println!("Problem 14 solution: {:?}", solution);
+    println!("Problem 14 solution: {}", solution);
 }
 
 struct CollatzLength {
     index: usize,
-    cache: Vec<usize>
+    cache: Vec<usize>,
 }
 
 impl CollatzLength {
     fn new() -> CollatzLength {
-        CollatzLength { index: 1, cache: vec![0; 4_000_000] }
+        CollatzLength {
+            index: 1,
+            cache: vec![0; 4_000_000],
+        }
     }
 
     fn get_length(&mut self, index: usize) -> usize {
         if index == 1 {
-            return 1
+            return 1;
         }
         let use_cache = index < self.cache.len();
         if use_cache {
@@ -39,7 +41,6 @@ impl CollatzLength {
         if use_cache {
             self.cache[index] = value;
         }
-               
         return value;
     }
 }
@@ -50,6 +51,6 @@ impl Iterator for CollatzLength {
     fn next(&mut self) -> Option<Self::Item> {
         let index = self.index;
         self.index += 1;
-        return Some((index, self.get_length(index)))
+        return Some((index, self.get_length(index)));
     }
 }
