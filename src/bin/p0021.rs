@@ -18,6 +18,7 @@ impl HasDivisors for u32 {
         let n = *self;
         match n {
             0 | 1 => vec![],
+            // Bug: square root of squares is not included.
             _ => (2..((n as f64).sqrt().ceil() as u32))
                 .fold(vec![1], |acc, i| if n % i == 0 { [acc, vec![i, n / i]].concat() } else { acc })
         }
